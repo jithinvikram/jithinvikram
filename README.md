@@ -2,7 +2,7 @@
 
 <h2>👨‍💻 Network Security Projects:</h2>
 
-<b>FortiGate Aggregate interface lab</b>
+- <b>FortiGate Aggregate interface lab</b>
   - [FortiGate Aggregate interface](https://github.com/jithinvikram/jithinvikram/tree/main/eve-ng%20labs/fortigate/aggregate%20interface)
 
 - <b>FortiGate One Arm Sniffer lab</b>
@@ -11,7 +11,7 @@
 - <b>Vlan and Zones in FortiGate</b>
   - [FortiGate Vlan and Zones ](https://github.com/jithinvikram/jithinvikram/tree/main/eve-ng%20labs/fortigate/vlan%20and%20zones) 
 
- <b>Redudant interface in FortiGate</b>
+ - <b>Redudant interface in FortiGate</b>
   - [FortiGate Redudant interface ](https://github.com/jithinvikram/jithinvikram/tree/main/eve-ng%20labs/fortigate/redudant%20interface) 
 
 

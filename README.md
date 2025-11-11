@@ -12,7 +12,7 @@
   - [FortiGate Vlan and Zones ](https://github.com/jithinvikram/jithinvikram/tree/main/eve-ng%20labs/fortigate/vlan%20and%20zones) 
 
  - <b>Redudant interface in FortiGate</b>
-  - [FortiGate Redudant interface ](https://github.com/jithinvikram/jithinvikram/tree/main/eve-ng%20labs/fortigate/redudant%20interface) 
+    - [FortiGate Redudant interface ](https://github.com/jithinvikram/jithinvikram/tree/main/eve-ng%20labs/fortigate/redudant%20interface) 
 
 
 <!--

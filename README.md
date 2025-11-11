@@ -2,11 +2,14 @@
 
 <h2>👨‍💻 Network Security lab Projects:</h2>
 
-- <b>FortiGate One Arm Sniffer Practice (AlgoExpert)</b>
-  - [Practising FortiGate One arm sniffer](https://github.com/jithinvikram/)
-- <b>Vlan and Zones in FortiGate (FortiGate VLANS and Zones)</b>
-  - [Practising FortiGate Vlan and Zones ](https://github.com/jithinvikram) <b><i>(Vlan and Zones)</b></i>
-- <b>Vlan and Zones</b>
+<b>FortiGate Aggregate interface lab</b>
+  - [FortiGate Aggregate interface](https://github.com/jithinvikram/jithinvikram/tree/main/eve-ng%20labs/fortigate/aggregate%20interface)
+- <b></b>
+- <b>FortiGate One Arm Sniffer lab</b>
+  - [FortiGate One arm sniffer](https://github.com/jithinvikram/jithinvikram/tree/main/eve-ng%20labs/fortigate/one%20arm%20sniffer)
+- <b>Vlan and Zones in FortiGate</b>
+  - [FortiGate Vlan and Zones ](https://github.com/jithinvikram/jithinvikram/tree/main/eve-ng%20labs/fortigate/vlan%20and%20zones) <b><i></b></i>
+- <b></b>
   - [Windows EventLog: Failed RDP Logins Source IP to full GeoData Conversion](https://github.com/joshmadakor1/Sentinel-Lab)
   - [JWipe (Disk Wiping Utility)](https://github.com/joshmadakor1/Jwipe.PowerShell)
   - [Active Directory Bulk User Creation](https://github.com/joshmadakor1/AD_PS)

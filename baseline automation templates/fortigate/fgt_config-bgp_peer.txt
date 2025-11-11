@@ -1,0 +1,87 @@
+config router prefix-list
+edit pl_static_routes
+config rule
+edit 0
+set action permit
+set prefix ${adv_cloud_subnet} ${adv_cloud_mask}
+unset ge
+unset le
+next
+edit 0
+set action permit
+set prefix ${adv_cust1_subnet} ${adv_cust1_mask}
+unset ge
+unset le
+next
+edit 0
+set action permit
+set prefix ${adv_cust2_subnet} ${adv_cust2_mask}
+unset ge
+unset le
+next
+end
+next
+edit pl_${peer_name}
+config rule
+edit 0
+set action permit
+set prefix ${rec_cust1_subnet} ${rec_cust1_mask}
+next
+end
+end
+config router route-map
+edit rm_static_routes
+config rule
+edit 0
+set match-ip-address pl_static_routes
+next
+end
+end
+edit rm_${peer_name}
+config rule
+edit 0
+set match-ip-address pl_${peer_name}
+next
+end
+end
+config router bgp
+set as ${local_as}
+config neighbor
+edit ${tun_peer}
+set soft-reconfiguration enable
+set remote-as ${remote_as}
+set route-map-in  rm_${peer_name}
+
+set route-map-out rm_static_routes
+next
+end
+config network
+edit 0
+set prefix ${adv_cloud_subnet} ${adv_cloud_mask}
+next
+end
+config redistribute connected
+set status enable
+end
+config redistribute static
+set status enable
+set route-map rm_static_routes 
+end
+end
+config router static
+edit 0
+set dst ${adv_cust1_subnet} ${adv_cust1_mask}
+set gateway ${svc_gw_addr}
+set device ${svc_int}
+next
+edit 0
+set dst ${adv_cust2_subnet} ${adv_cust2_mask}
+set gateway ${svc_gw_addr}
+set device ${svc_int}
+next
+edit 0
+set dst ${adv_cloud_subnet} ${adv_cloud_mask}
+set gateway ${svc_gw_addr}
+set device ${svc_int}
+next
+end

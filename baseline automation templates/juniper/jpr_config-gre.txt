@@ -1,0 +1,13 @@
+edit
+set interfaces gr-0/0/0.${tun_num} tunnel source ${svc_addr}
+set interfaces gr-0/0/0.${tun_num} tunnel destination ${svc_peer_addr}
+set interfaces gr-0/0/0.${tun_num} path-mtu-discovery
+set interfaces gr-0/0/0.${tun_num} description "${tun_comment}"
+set interfaces gr-0/0/0.${tun_num} family inet address ${tun_addr}/${tun_mask} 
+set security zones security-zone ${zone} interfaces gr-0/0/0.${tun_num} 
+set security zones security-zone ${zone} interfaces gr-0/0/0.${tun_num} host-inbound-traffic system-services ping
+set security zones security-zone ${zone} interfaces gr-0/0/0.${tun_num} host-inbound-traffic protocols bgp
+set security policies from-zone ${zone} to-zone ${zone} policy default-permit match source-address any destination-address any application any
+set security policies from-zone ${zone} to-zone ${zone} policy default-permit then permit 
+set routing-options static route ${svc_peer_addr}/32 next-hop ${svc_gw_addr}
+commit

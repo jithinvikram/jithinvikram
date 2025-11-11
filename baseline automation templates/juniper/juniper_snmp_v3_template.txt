@@ -1,0 +1,11 @@
+set snmp v3 usm local-engine user ${username} authentication-sha authentication-key "${snmp_pass}"
+set snmp v3 usm local-engine user ${username} privacy-des privacy-key "${snmp_pass}"
+set snmp v3 vacm security-to-group security-model usm security-name ${username} group SNMPV3GROUP
+set snmp v3 vacm access group SNMPV3GROUP default-context-prefix security-model usm security-level privacy read-view SNMPVIEW
+set snmp v3 vacm access group SNMPV3GROUP default-context-prefix security-model usm security-level privacy write-view SNMPVIEW
+set snmp view SNMPVIEW oid .1 include
+set security zones security-zone ${zone} host-inbound-traffic system-services snmp
+set security zones security-zone ${zone} host-inbound-traffic system-services snmp-trap
+set security zones security-zone ${zone} interfaces ${local_int} host-inbound-traffic system-services snmp
+set security zones security-zone ${zone} interfaces ${local_int} host-inbound-traffic system-services snmp-trap
+set routing-options static route ${snmp_server} next-hop ${local_svc_gateway}

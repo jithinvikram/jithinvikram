@@ -1,0 +1,51 @@
+configure
+set address obj_tunnel.${tun_num} ip-netmask ${tun_addr}/${tun_mask}
+set address obj_tunnel.${tun_num} description "${tun_comment}"
+set network interface tunnel units tunnel.${tun_num} ip obj_tunnel.${tun_num}
+set network interface tunnel units tunnel.${tun_num} comment "${tun_comment}”
+set network interface tunnel units tunnel.${tun_num} interface-management-profile health_ping
+set zone ${zone} network layer3 tunnel.${tun_num}
+set zone ${zone} network enable-packet-buffer-protection yes
+set import network interface tunnel.${tun_num}
+set network ike crypto-profiles ike-crypto-profiles ike_crypto_tun_${tun_num} encryption aes-256-cbc
+set network ike crypto-profiles ike-crypto-profiles ike_crypto_tun_${tun_num} hash sha384
+set network ike crypto-profiles ike-crypto-profiles ike_crypto_tun_${tun_num} dh-group group19
+set network ike crypto-profiles ike-crypto-profiles ike_crypto_tun_${tun_num} lifetime seconds 28800
+set network ike crypto-profiles ipsec-crypto-profiles ipsec_crypto_tun_${tun_num} esp encryption aes-256-cbc
+set network ike crypto-profiles ipsec-crypto-profiles ipsec_crypto_tun_${tun_num} esp authentication [ sha384 sha256 ]
+set network ike crypto-profiles ipsec-crypto-profiles ipsec_crypto_tun_${tun_num} dh-group group19
+set network ike crypto-profiles ipsec-crypto-profiles ipsec_crypto_tun_${tun_num} lifetime seconds 3600
+set network ike gateway ike_tun_${tun_num} authentication pre-shared-key key ${ipsec_unencrypt_key}
+set network ike gateway ike_tun_${tun_num} protocol ikev1 dpd enable yes
+set network ike gateway ike_tun_${tun_num} protocol ikev2 dpd enable yes
+set network ike gateway ike_tun_${tun_num} protocol ikev2 ike-crypto-profile ike_crypto_tun_${tun_num}
+set network ike gateway ike_tun_${tun_num} protocol version ikev2
+set network ike gateway ike_tun_${tun_num} protocol-common nat-traversal enable ${nat_trav}
+set network ike gateway ike_tun_${tun_num} protocol-common fragmentation enable no
+set network ike gateway ike_tun_${tun_num} local-address interface ${svc_int}
+set network ike gateway ike_tun_${tun_num} peer-address ip ${ipsec_peer_addr}
+set network tunnel ipsec ipsec_tun_${tun_num} auto-key ike-gateway ike_tun_${tun_num} 
+set network tunnel ipsec ipsec_tun_${tun_num} auto-key ipsec-crypto-profile ipsec_crypto_tun_${tun_num}
+set network tunnel ipsec ipsec_tun_${tun_num} tunnel-monitor enable no
+set network tunnel ipsec ipsec_tun_${tun_num} tunnel-interface tunnel.${tun_num}
+set network tunnel ipsec ipsec_tun_${tun_num} anti-replay no
+set network tunnel ipsec ipsec_tun_${tun_num} comment "${tun_comment}"
+set network tunnel ipsec ipsec_tun_${tun_num} auto-key proxy-id id_tun_${tun_num} protocol any
+set network tunnel ipsec ipsec_tun_${tun_num} auto-key proxy-id id_tun_${tun_num} local 0.0.0.0/0	
+set network tunnel ipsec ipsec_tun_${tun_num} auto-key proxy-id id_tun_${tun_num} remote 0.0.0.0/0
+set rulebase security rules ipsec_tun_${tun_num} to ${zone}
+set rulebase security rules ipsec_tun_${tun_num} from ${zone}
+set rulebase security rules ipsec_tun_${tun_num} source any
+set rulebase security rules ipsec_tun_${tun_num} destination any
+set rulebase security rules ipsec_tun_${tun_num} source-user any
+set rulebase security rules ipsec_tun_${tun_num} category any
+set rulebase security rules ipsec_tun_${tun_num} application any
+set rulebase security rules ipsec_tun_${tun_num} service any
+set rulebase security rules ipsec_tun_${tun_num} hip-profiles any
+set rulebase security rules ipsec_tun_${tun_num} action allow
+set network virtual-router ${vr_instance} interface tunnel.${tun_num}
+set network virtual-router default routing-table ip static-route sr_tun_${tun_num} nexthop ip-address ${svc_gw_addr}
+set network virtual-router default routing-table ip static-route sr_tun_${tun_num} metric 10
+set network virtual-router default routing-table ip static-route sr_tun_${tun_num} destination ${ipsec_peer_addr}/32
+set network virtual-router default routing-table ip static-route sr_tun_${tun_num} route-table unicast
+commit

@@ -1,0 +1,35 @@
+config system gre-tunnel
+edit gre_tun_${tun_num}
+set interface ${svc_int}
+set remote-gw ${svc_peer_addr}
+set local-gw ${svc_addr}
+next
+end
+config system interface
+edit gre_tun_${tun_num}
+set allowaccess ping
+set type tunnel
+set ip ${tun_addr} 255.255.255.255
+set remote-ip ${tun_peer}/${tun_mask}
+set interface ${svc_int}
+next
+end
+config router static
+edit 0
+set dst ${svc_peer_addr}/32
+set gateway ${svc_gw_addr}
+set device ${svc_int}
+next
+end
+config firewall policy
+edit 0
+set name gre_tun_${tun_num}
+set srcintf gre_tun_${tun_num}
+set dstintf gre_tun_${tun_num}
+set srcaddr all
+set dstaddr all
+set action accept
+set schedule "always"
+set service PING
+next
+end

@@ -1,0 +1,19 @@
+configure
+set service snmp listen-address ${local_address-eth2}
+set service snmp location IBM-Cloud
+set service snmp v3 engineid
+set service snmp v3 engineid 000000000000000000000002
+set service snmp v3 group mygroup mode ro
+set service snmp v3 group mygroup seclevel priv
+set service snmp v3 group mygroup view default
+set service snmp v3 view default oid 1
+set service snmp v3 user vyos auth plaintext-password ${password}
+set service snmp v3 user vyos auth type sha
+set service snmp v3 user vyos group mygroup
+set service snmp v3 user vyos privacy plaintext-password ${password}
+set service snmp v3 user vyos privacy type aes
+set firewall name ${local_firewall_policyname} rule 4 action accept
+set firewall name ${local_firewall_policyname} rule 4 protocol tcp_udp
+set firewall name ${local_firewall_policyname} rule 4 destination port 161
+commit
+save

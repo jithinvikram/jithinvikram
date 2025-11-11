@@ -1,0 +1,67 @@
+-- inputs --
+tun_name == tunnel naming standard
+tun_num == sequence from tunnel naming standard
+pub_int
+ipsec_peer_addr
+pre_shared_key
+tun_addr
+tun_peer
+tun_mask
+pub_gw_addr
+
+-- start config ---
+config vpn ipsec phase1-interface
+edit ${tun_name}
+set interface ${pub_int}
+set ike-version 2
+set keylife 28800
+set peertype any
+set net-device enable
+set proposal aes256-sha384
+set dhgrp 19
+set nattraversal enable
+set remote-gw ${ipsec_peer_addr}
+set psksecret ${pre_shared_key}
+set dpd-retryinterval 10
+next
+end
+config vpn ipsec phase2-interface
+edit ${tun_name}
+set phase1name ${tun_name}
+set proposal aes256-sha384 aes256-sha256
+set dhgrp 19
+set auto-negotiate enable
+set keylifeseconds 3600
+next
+end
+config system settings
+set gui-multiple-interface-policy enable
+end
+config system interface
+edit ${tun_name}
+set ip ${tun_addr} 255.255.255.255
+set allowaccess ping
+set type tunnel
+set remote-ip ${tun_peer}/${tun_mask}
+set interface ${svc_int}
+next
+end
+config firewall policy
+edit 0
+set name ${tun_name}
+set srcintf ${svc_int} ${tun_name}
+set dstintf ${svc_int} ${tun_name}
+set action accept
+set srcaddr all
+set dstaddr all
+set schedule "always"
+set service PING
+next
+end
+config router static
+edit 0
+set dst ${ipsec_peer_addr}/32
+set gateway ${pub_gw_addr}
+set device ${pub_int}
+next
+end

@@ -1,0 +1,28 @@
+##WLC 1-Primary
+copy running-config tftp://${server-ip}/run-backup_${name}.cfg
+copy startup-config tftp://${server-ip}/startup-backup_${name}.cfg
+configure terminal 
+interface vlan ${vlan-id}
+ip address ${ip-addr1} ${mask} secondary
+redundancy
+mode sso
+chassis 1 priority 2
+redun-management interface Vlan30 chassis 1 address ${ip-addr1} chassis 2 address 
+wr
+reload
+
+##WLC2- Secondary
+configure terminal
+interface vlan ${vlan-id}
+ip address ${ip-addr2}  ${mask} secondary
+redundancy
+mode sso
+chassis 1 renumber 2
+redun-management interface Vlan30 chassis 1 address ${ip-addr2} chassis 2 address 
+end
+wr
+reload
+
+
+
+

@@ -1,0 +1,24 @@
+configure
+set network profiles interface-management-profile snmp permitted-ip ${snmp_server_ip}
+set network profiles interface-management-profile snmp snmp yes
+set deviceconfig system snmp-setting access-setting version v3 views prod view prod oid .1
+set deviceconfig system snmp-setting access-setting version v3 views prod view prod option include
+set deviceconfig system snmp-setting access-setting version v3 views prod view prod mask 0x80
+set deviceconfig system snmp-setting access-setting version v3 users ${username} authpwd ${authpwd}
+set deviceconfig system snmp-setting access-setting version v3 users ${username} privpwd ${privpwd}
+set deviceconfig system snmp-setting access-setting version v3 users ${username} view prod
+set deviceconfig system snmp-setting snmp-system location ${location_name}
+set deviceconfig system snmp-setting snmp-system send-event-specific-traps no
+set deviceconfig system route service snmp source address ${mgmt_ip}
+set shared log-settings snmptrap ${snmptrap_name} version v3 server ${username} manager ${snmp_ip}
+## Note: please don't use special characters for authpwd or privpwd, only use alphanumeric eg admin123
+set shared log-settings snmptrap ${snmptrap_name} version v3 server ${username} authpwd ${authpwd} 
+set shared log-settings snmptrap ${snmptrap_name} version v3 server ${username} privpwd ${privpwd}
+set shared log-settings snmptrap ${snmptrap_name} version v3 server ${username} user ${username}
+set shared log-settings system match-list ${list_name} send-snmptrap ${snmptrap_name}
+set shared log-settings system match-list ${list_name} filter "All Logs"
+set network virtual-router default routing-table ip static-route ${snmpsrv_name} nexthop ip-address ${mgmt_gtwy_ip}
+set network virtual-router default routing-table ip static-route ${snmpsrv_name} interface ${mgmt_int}
+set network virtual-router default routing-table ip static-route ${snmpsrv_name} destination ${snmp_ip}/${mask}
+commit
+exit

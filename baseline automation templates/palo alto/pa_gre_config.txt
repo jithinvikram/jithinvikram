@@ -1,0 +1,20 @@
+configure
+set address obj_tunnel.${tun_num} ip-netmask ${tun_addr}/${tun_mask}
+set address obj_tunnel.${tun_num} description "${tun_comment}"
+set network interface tunnel units tunnel.${tun_num} ip obj_tunnel.${tun_num}
+set network interface tunnel units tunnel.${tun_num} comment "${tun_comment}"
+set network interface tunnel units tunnel.${tun_num} interface-management-profile health_ping
+set zone ${zone} network layer3 tunnel.${tun_num}
+set zone ${zone} network enable-packet-buffer-protection yes
+set import network interface tunnel.${tun_num}
+set network tunnel gre gre_tun_${tun_num} local-address ip ${obj_svc_addr}
+set network tunnel gre gre_tun_${tun_num} local-address interface ${svc_int}
+set network tunnel gre gre_tun_${tun_num} peer-address ip ${gre_peer_addr}
+set network tunnel gre gre_tun_${tun_num} keep-alive enable no
+set network tunnel gre gre_tun_${tun_num} tunnel-interface tunnel.${tun_num}
+set network virtual-router default interface tunnel.${tun_num}
+set network virtual-router default routing-table ip static-route sr_tun_${tun_num} nexthop ip-address ${svc_gw_addr}
+set network virtual-router default routing-table ip static-route sr_tun_${tun_num} metric 10
+set network virtual-router default routing-table ip static-route sr_tun_${tun_num} destination ${gre_peer_addr}/32
+set network virtual-router default routing-table ip static-route sr_tun_${tun_num} route-table unicast
+commit

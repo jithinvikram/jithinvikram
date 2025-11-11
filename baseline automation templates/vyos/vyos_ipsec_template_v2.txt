@@ -1,0 +1,47 @@
+-- inputs --
+tun_name == tunnel naming standard
+tun_num == sequence from tunnel naming standard
+pub_int
+pub_int_ip
+tun_addr
+tun_mask
+peer_addr
+remote_id
+svc_gw_addr
+
+-- start config --
+configure
+set protocols static route ${peer_addr}/32 next-hop ${pub_gw_addr}
+set vpn ipsec ipsec-interfaces interface ${pub_int}
+set interfaces vti vti${tun_num} address ${tun_addr}/${tun_mask}
+set interfaces vti vti${tun_num} description "to {tun_name}"
+set vpn ipsec esp-group ${tun_name} compression disable
+set vpn ipsec esp-group ${tun_name} lifetime 3600
+set vpn ipsec esp-group ${tun_name} mode tunnel
+set vpn ipsec esp-group ${tun_name} pfs dh-group19
+set vpn ipsec esp-group ${tun_name} proposal 1 encryption aes256
+set vpn ipsec esp-group ${tun_name} proposal 1 hash sha256
+set vpn ipsec ike-group ${tun_name} dead-peer-detection action clear
+set vpn ipsec ike-group ${tun_name} dead-peer-detection interval 10
+set vpn ipsec ike-group ${tun_name} dead-peer-detection timeout 30
+set vpn ipsec ike-group ${tun_name} ikev2-reauth no
+set vpn ipsec ike-group ${tun_name} key-exchange ikev2
+set vpn ipsec ike-group ${tun_name} lifetime 28800
+set vpn ipsec ike-group ${tun_name} proposal 1 dh-group 19
+set vpn ipsec ike-group ${tun_name} proposal 1 encryption aes256
+set vpn ipsec ike-group ${tun_name} proposal 1 hash sha384
+set vpn ipsec site-to-site peer ${peer_addr} authentication id ${pub_int_ip}
+set vpn ipsec site-to-site peer ${peer_addr} authentication mode pre-shared-secret
+set vpn ipsec site-to-site peer ${peer_addr} authentication pre-shared-secret ${pre_shared_key}
+set vpn ipsec site-to-site peer ${peer_addr} authentication remote-id ${remote_id}
+set vpn ipsec site-to-site peer ${peer_addr} connection-type initiate
+set vpn ipsec site-to-site peer ${peer_addr} ike-group ${tun_name}
+set vpn ipsec site-to-site peer ${peer_addr} ikev2-reauth inherit
+set vpn ipsec site-to-site peer ${peer_addr} local-address ${pub_int_ip}
+set vpn ipsec site-to-site peer ${peer_addr} vti bind vti${tun_num}
+set vpn ipsec site-to-site peer ${peer_addr} vti esp-group ${tun_name}
+set vpn ipsec nat-traversal enable
+set vpn ipsec logging log-level '2'
+set vpn ipsec options disable-route-autoinstall
+commit
+save

@@ -1,0 +1,24 @@
+configure terminal
+ip dhcp pool test-pool
+network ${pool-ip} {mask}
+dns-server ${domain-name}
+interface loopback0
+ip address ${loopback-ip} {mask}
+interface vlan {vlan-id} 
+ip address {vlan-ip} {mask} 
+ip helper-address ${helper-ip}
+no mop enabled
+no mop sysid
+ip dhcp excluded-address {excluded-ip}
+ip dhcp pool pool-vlan${vlan-id}  
+network ${vlan-pool} ${vlan-subnet}
+default-router ${default-ip}
+wireless profile policy default-policy-profile
+central association
+central dhcp
+central switching
+description "default policy profile"
+vlan ${vlan-id} 
+no shutdown
+end
+wr

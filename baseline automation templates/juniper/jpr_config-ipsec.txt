@@ -1,0 +1,38 @@
+edit
+set interfaces st0 unit ${tun_num} family inet address ${tun_addr}/${tun_mask}
+set security ike proposal ike_prop_tun_${tun_num} authentication-method pre-shared-keys
+set security ike proposal ike_prop_tun_${tun_num} authentication-algorithm sha-384
+set security ike proposal ike_prop_tun_${tun_num} encryption-algorithm aes-256-cbc
+set security ike proposal ike_prop_tun_${tun_num} dh-group group19
+set security ike proposal ike_prop_tun_${tun_num} lifetime-seconds 28800
+set security ike policy ike_pol_tun_${tun_num} mode main
+set security ike policy ike_pol_tun_${tun_num} proposals ike_prop_tun_${tun_num}
+set security ike policy ike_pol_tun_${tun_num} pre-shared-key ascii-text ${ipsec_unencrypt_key}
+set security ike policy ike_pol_tun_${tun_num} reauth-frequency 0
+set security ike gateway ike_tun_${tun_num} ike-policy ike_pol_tun_${tun_num}
+set security ike gateway ike_tun_${tun_num} address ${ipsec_peer_addr}
+set security ike gateway ike_tun_${tun_num} external-interface ${svc_int}
+set security ike gateway ike_tun_${tun_num} no-nat-traversal
+set security ike gateway ike_tun_${tun_num} local-identity inet ${svc_addr}
+set security ike gateway ike_tun_${tun_num} version v2-onlyset
+set security ike gateway ike_tun_${tun_num} general-ikeid
+set security ike gateway ike_tun_${tun_num} fragmentation disable
+set security ike gateway ike_tun_${tun_num} dead-peer-detection optimized
+set security ike gateway ike_tun_${tun_num} dead-peer-detection interval 10
+set security ike gateway ike_tun_${tun_num} dead-peer-detection threshold 3
+set security ipsec proposal ipsec_prop_tun_${tun_num} protocol esp
+set security ipsec proposal ipsec_prop_tun_${tun_num} authentication-algorithm hmac-sha-256-128
+set security ipsec proposal ipsec_prop_tun_${tun_num} encryption-algorithm aes-256-cbc
+set security ipsec proposal ipsec_prop_tun_${tun_num} lifetime-seconds 3600
+set security ipsec policy ipsec_pol_tun_${tun_num} proposals ipsec_prop_tun_${tun_num}
+set security ipsec policy ipsec_pol_tun_${tun_num} perfect-forward-secrecy keys group19
+set security ipsec vpn ipsec_tun_${tun_num} bind-interface st0.${tun_num}
+set security ipsec vpn ipsec_tun_${tun_num} ike gateway ike_tun_${tun_num}
+set security ipsec vpn ipsec_tun_${tun_num} ike ipsec-policy ipsec_pol_tun_${tun_num}
+set security ipsec vpn ipsec_tun_${tun_num} ike install-interval 3
+set security ipsec vpn ipsec_tun_${tun_num} establish-tunnels immediately
+set security zones security-zone ${zone} host-inbound-traffic system-services ike
+set security zones security-zone ${zone} interfaces st0.${tun_num} host-inbound-traffic system-services ping
+set security zones security-zone ${zone} interfaces st0.${tun_num} host-inbound-traffic protocols bgp
+set routing-options static route ${ipsec_peer_addr}/32 next-hop ${svc_gw_addr}
+commit

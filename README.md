@@ -1,15 +1,16 @@
-<h1>Hi, I'm Jithin Vikram! <br/><a href="https://github.com/jithinvikram">Network Engineer</a>, <a href="https://www.linkedin.com/in/jithinvikram/">Senior Network and Security Professional</a> </h1>
+<h1>Hi, I'm Jithin Vikram! <br/><a href="https://github.com/jithinvikram"></a>, <a href="https://www.linkedin.com/in/jithinvikram/">Senior Network Design and Deliveriy Consultant</a> </h1>
 
-<h2>👨‍💻 Network Security lab Projects:</h2>
+<h2>👨‍💻 Network Security Projects:</h2>
 
 <b>FortiGate Aggregate interface lab</b>
   - [FortiGate Aggregate interface](https://github.com/jithinvikram/jithinvikram/tree/main/eve-ng%20labs/fortigate/aggregate%20interface)
-- <b></b>
+
 - <b>FortiGate One Arm Sniffer lab</b>
   - [FortiGate One arm sniffer](https://github.com/jithinvikram/jithinvikram/tree/main/eve-ng%20labs/fortigate/one%20arm%20sniffer)
+
 - <b>Vlan and Zones in FortiGate</b>
-  - [FortiGate Vlan and Zones ](https://github.com/jithinvikram/jithinvikram/tree/main/eve-ng%20labs/fortigate/vlan%20and%20zones) <b><i></b></i>
-- <b></b>
+  - [FortiGate Vlan and Zones ](https://github.com/jithinvikram/jithinvikram/tree/main/eve-ng%20labs/fortigate/vlan%20and%20zones) 
+  
   - [Windows EventLog: Failed RDP Logins Source IP to full GeoData Conversion](https://github.com/joshmadakor1/Sentinel-Lab)
   - [JWipe (Disk Wiping Utility)](https://github.com/joshmadakor1/Jwipe.PowerShell)
   - [Active Directory Bulk User Creation](https://github.com/joshmadakor1/AD_PS)
